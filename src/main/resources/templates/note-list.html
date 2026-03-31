@@ -1,28 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Note List</title>
+    <title>NoteManager - Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-<h1>Note List</h1>
-<table>
-    <tr>
-        <th>Title</th>
-        <th>Content</th>
-        <th>Actions</th>
-    </tr>
-    <tr th:each="note : ${notes}">
-        <td th:text="${note.title}"></td>
-        <td th:text="${note.content}"></td>
-        <td>
-            <form th:action="@{/note/delete}" method="post">
-                <input type="hidden" name="id" th:value="${note.id}" />
-                <button type="submit">Delete</button>
-            </form>
-            <a th:href="@{/note/edit(id=${note.id})}">Edit</a>
-        </td>
-    </tr>
-</table>
-<button th:onclick="|location.href='@{/note/add-note}'|">Add Note</button>
+
+<header class="top-bar">
+    <div class="logo">NoteManager</div>
+    <div class="user-info">useremail@mail.com</div>
+</header>
+
+<main class="dashboard">
+    <div class="notes-grid">
+
+        <div class="note-card" th:each="note : ${notes}">
+
+            <div class="card-header">
+                <h3 th:text="${note.title}">Title</h3>
+            </div>
+
+            <div class="card-body">
+                <p th:text="${note.content}">TEXT</p>
+            </div>
+
+            <div class="card-footer">
+                <div class="uncertainty-indicator">
+                        <span th:if="${note.analysis != null}">
+                            Uncertainty: <span th:text="${#numbers.formatDecimal(note.analysis.uncertaintyScore * 100, 1, 0)} + '%'">20%</span>
+                        </span>
+                    <span th:if="${note.analysis == null}" class="pending-text">Pending...</span>
+                </div>
+
+                <div class="card-actions">
+                    <a th:href="@{/note/edit(id=${note.id})}" class="action-btn edit-btn" title="Edit">
+                        <i class="fas fa-edit"></i>
+                    </a>
+
+                    <form th:action="@{/note/delete}" method="post" class="delete-form">
+                        <input type="hidden" name="id" th:value="${note.id}" />
+                        <button type="submit" class="action-btn delete-btn" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <a th:href="@{/note/add-note}" class="note-card add-note-card">
+            <i class="fas fa-plus"></i>
+        </a>
+
+    </div>
+</main>
+
 </body>
 </html>
