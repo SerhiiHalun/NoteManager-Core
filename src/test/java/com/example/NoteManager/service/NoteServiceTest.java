@@ -1,6 +1,7 @@
 package com.example.NoteManager.service;
 
 import com.example.NoteManager.entity.Note;
+import com.example.NoteManager.entity.NoteAnalysis;
 import com.example.NoteManager.repository.NoteRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +27,9 @@ class NoteServiceTest {
 
     @Test
     void getById() {
-        Note note = new Note(1, "First Note", "This is the content of the first note.");
+        NoteAnalysis analysis = new NoteAnalysis();
+        Note note = new Note(1L, "First Note", "This is the content of the first note.", analysis);
+
         when(noteRepository.findById(1L)).thenReturn(java.util.Optional.of(note));
 
         Note foundNote = noteService.getById(1L);
