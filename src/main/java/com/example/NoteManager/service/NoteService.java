@@ -6,7 +6,10 @@ package com.example.NoteManager.service;
 
 
 import com.example.NoteManager.entity.Note;
+import com.example.NoteManager.entity.NoteAnalysis;
+import com.example.NoteManager.repository.NoteAnalysisRepository;
 import com.example.NoteManager.repository.NoteRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,19 +20,21 @@ import java.util.*;
 
 public class NoteService {
 
+    private final UncertaintyAnalysisClient uncertaintyAnalysisClient;
+    private final NoteAnalysisService noteAnalysisService ;
+    private final NoteRepository noteRepository;
 
-    private  final NoteRepository noteRepository;
 
+    @Transactional
+    public void saveNoteWithAnalysis(Note note) {
+        Note savedNote = noteRepository.save(note);
 
+        Double scoreAnalysis = uncertaintyAnalysisClient.analyzeUncertainty(note.getContent());
+        noteAnalysisService.saveAnalysisNote(savedNote.getId(), scoreAnalysis);
 
+    }
     public List<Note> listAll(){
         return noteRepository.findAll();
-    }
-    public Note add(Note note){
-
-        noteRepository.save(note);
-
-        return note;
     }
     public void deleteById(long id){
         if (noteRepository.existsById(id)) {

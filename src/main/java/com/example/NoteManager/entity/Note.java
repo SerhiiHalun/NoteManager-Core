@@ -14,9 +14,11 @@ import lombok.NoArgsConstructor;
 public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Column(name = "title",nullable = false)
     private String title;
-    @Column(name = "content")
+    @Column(name = "content",columnDefinition = "TEXT")
     private String content;
+    @OneToOne(mappedBy = "note", cascade = CascadeType.ALL)
+    private NoteAnalysis analysis;
 }

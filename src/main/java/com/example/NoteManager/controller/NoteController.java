@@ -55,7 +55,7 @@ public class NoteController {
 
     @PostMapping("/add-note")
     public ModelAndView createNote(@ModelAttribute Note note) {
-        noteService.add(note);
+        noteService.saveNoteWithAnalysis(note);
         return new ModelAndView("redirect:/note/list");
     }
 
