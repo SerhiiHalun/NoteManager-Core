@@ -31,21 +31,18 @@ public class DefaultSecurityConfig {
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .formLogin()
-                .defaultSuccessUrl("/note/list", true)
-                .and()
-                .httpBasic()
-                .and()
-                .formLogin(Customizer.withDefaults());
+                .authorizeHttpRequests(auth -> auth
+                        .anyRequest().authenticated()
+                )
+                .formLogin(form -> form
+                        .defaultSuccessUrl("/note/list", true)
+                )
+                .httpBasic(Customizer.withDefaults());
         return http.build();
     }
 
     @Autowired
-    public void injectCustomAuthProvider(AuthenticationManagerBuilder auth) throws Exception {
+    public void injectCustomAuthProvider(AuthenticationManagerBuilder auth)  {
         auth.authenticationProvider(customAuthProvider);
     }
 }
