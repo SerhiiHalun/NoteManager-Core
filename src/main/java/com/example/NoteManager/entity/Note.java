@@ -15,7 +15,7 @@ public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "title",nullable = false)
+    @Column(name = "title",nullable = false,length = 1000)
     private String title;
     @Column(name = "content",columnDefinition = "TEXT")
     private String content;
