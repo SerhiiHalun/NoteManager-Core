@@ -1,7 +1,9 @@
+FROM gradle:8-jdk21 AS builder
 WORKDIR /app
 
 COPY . .
 
+RUN gradle bootJar -x test
 
 FROM eclipse-temurin:21-jre
 WORKDIR /app
