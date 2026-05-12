@@ -1,10 +1,6 @@
 package com.example.NoteManager.service;
 
 
-
-
-
-
 import com.example.NoteManager.entity.Note;
 import com.example.NoteManager.entity.NoteAnalysis;
 import com.example.NoteManager.repository.NoteAnalysisRepository;
@@ -54,7 +50,5 @@ public class NoteService {
         return noteRepository.findById(id).orElseThrow(() ->
                 new NoSuchElementException("Note with id " + id + " not found."));
     }
-
-
 
 }
