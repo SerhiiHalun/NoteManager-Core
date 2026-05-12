@@ -45,7 +45,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
             @Override
             public String getUsername() {
-                return userData.getUsername(); // Изменено на userData.getUsername()
+                return userData.getUsername();
             }
 
             @Override
@@ -65,7 +65,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
             @Override
             public boolean isEnabled() {
-                return true; // Изменено, чтобы возвращало true
+                return true;
             }
         };
     }
